@@ -13,14 +13,18 @@ batsman = []
 bowler = []
 batsman2 = []
 bowler2 = []
+countBatsman = 0
+countBatsman2 = 0
+countBowler = 0 
+countBowler2 = 0   
 
-codearr = ["30449/rcb-vs-kxip-31st","30450/mi-vs-kkr-32nd"]
-teamarr = ["RCB","KKR"]
-batsmanCountarr = [8,7]
-bowlerCountarr = [6,5]
-team2arr = ["KXIP","MI"]
-batsmanCount2arr = [4,4]
-bowlerCount2arr =  [6,6]
+codearr = ["30475/rr-vs-srh-40th"]
+teamarr = ["RR"]
+batsmanCountarr = [8]
+bowlerCountarr = [6]
+team2arr = ["SRH"]
+batsmanCount2arr = [4]
+bowlerCount2arr =  [6]
 
 
 # ##############################  url and match   #################################
@@ -109,6 +113,7 @@ for d in range(len(codearr)):
 
     ########################    First off Batting   #################################
     for x in range(batsmanCount):
+        countBatsman +=1  
 
         y = str(3 + x)
         batsmanUrl = battingUrl + y + "]"
@@ -131,7 +136,7 @@ for d in range(len(codearr)):
         six = driver.find_element_by_xpath(sixUrl)
         sr = driver.find_element_by_xpath(srUrl)
 
-        print(player.text,outBy.text,run.text,four.text,six.text)
+        # print(player.text,outBy.text,run.text,four.text,six.text)
         data = {
             "name": player.text,
             "outby": outBy.text,
@@ -142,9 +147,13 @@ for d in range(len(codearr)):
             "strickrate": float(sr.text)
         }
         batsman.append(data)
+    print("batsman Count",countBatsman)
+    countBatsman = 0    
 
     #################################   First Off Bowling   ##############################
     for x in range(bowlerCount):
+        countBowler +=1
+
         y = str(x + 2)
         bowlerUrl = bowlingUrl + y + "]"
 
@@ -164,7 +173,7 @@ for d in range(len(codearr)):
         wicket = driver.find_element_by_xpath(wicketUrl)
         economy = driver.find_element_by_xpath(economyUrl)
 
-        print("bowler",name.text)
+        # print("bowler",name.text)
 
         data = {
             "name": name.text,
@@ -175,10 +184,13 @@ for d in range(len(codearr)):
             "economy": float(economy.text)
         }
         bowler.append(data)
+    print("bowlerCount",countBowler)
+    countBowler =0    
 
 
     ########################    Second off Batting   #################################
     for a in range(batsmanCount2):
+        countBatsman2 +=1
         b = str(3 + a)
         batsmanUrl2 = battingUrl2 + b + "]"
         # print("batsman", batsmanUrl2)
@@ -200,7 +212,7 @@ for d in range(len(codearr)):
         six2 = driver.find_element_by_xpath(sixUrl2)
         sr2 = driver.find_element_by_xpath(srUrl2)
 
-        print(player2.text,outBy2.text,run2.text,four2.text,six2.text)
+        # print(player2.text,outBy2.text,run2.text,four2.text,six2.text)
         data2 = {
             "name": player2.text,
             "outby": outBy2.text,
@@ -211,9 +223,12 @@ for d in range(len(codearr)):
             "strickrate": float(sr2.text)
         }
         batsman2.append(data2)
+    print("Batsman2 Count",countBatsman2)
+    countBatsman2 = 0     
 
     #################################   Second Off Bowling   ##############################
     for a in range(bowlerCount2):
+        countBowler2 +=1
         b = str(a + 2)
         bowlerUrl2 = bowlingUrl2 + b + "]"
 
@@ -233,7 +248,7 @@ for d in range(len(codearr)):
         wicket2 = driver.find_element_by_xpath(wicketUrl2)
         economy2 = driver.find_element_by_xpath(economyUrl2)
 
-        print("bowler",name2.text)
+        # print("bowler",name2.text)
 
         data2 = {
             "name": name2.text,
@@ -243,7 +258,10 @@ for d in range(len(codearr)):
             "wickets": int(wicket2.text),
             "economy": float(economy2.text)
         }
+
         bowler2.append(data2)
+    print("Bowler2 Count",countBowler2)
+    countBowler2 = 0    
 
     
 
@@ -277,12 +295,22 @@ for d in range(len(codearr)):
         "bowler": bowler2
     }
 
-    print("InsertData", insertData)
-    # insert1 = col.insert_one(insertData)
-    # insert2 = col.insert_one(insertData2)
+    # print("InsertData", insertData)
+    insert1 = col.insert_one(insertData)
+    insert2 = col.insert_one(insertData2)
 
 driver.close()
 
 
+
+# Unwanted Code
 # /html[1]/body[1]/div[1]/div[2]/div[4]/div[2]/div[3]/div[2]/div[2]/div[1]/a[1]
 # /html[1]/body[1]/div[1]/div[2]/div[4]/div[2]/div[3]/div[4]/div[2]/div[1]
+
+# codearr =["30449/rcb-vs-kxip-31st","30450/mi-vs-kkr-32nd","30454/rr-vs-rcb-33rd","30459/dc-vs-csk-34th","30460/srh-vs-kkr-35th","30464/mi-vs-kxip-36th","30465/csk-vs-rr-37th","30469/kxip-vs-dc-38th","30474/kkr-vs-rcb-39th"]
+# teamarr = ["RCB","KKR","RR","CSK","KKR","MI","CSK","DC","KKR"]
+# batsmanCountarr = [8,7,7,6,6,8,7,6,9]
+# bowlerCountarr = [6,5,6,6,5,7,6,6,6]
+# team2arr = ["KXIP","MI","RCB","DC","SRH","KXIP","RR","KXIP","RCB"]
+# batsmanCount2arr = [4,4,5,7,8,7,5,7,4]
+# bowlerCount2arr =  [6,6,5,6,6,6,6,6,4]
